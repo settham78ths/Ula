@@ -1,0 +1,67 @@
+# Environment Variables for CV Optimizer Pro PWA
+
+# Flask Configuration
+FLASK_SECRET_KEY=cv-optimizer-pro-super-secret-key-2024-pwa-builder-advanced
+FLASK_ENV=development
+FLASK_DEBUG=True
+
+# OpenRouter AI API (for CV analysis)
+OPENROUTER_API_KEY=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
+
+# Stripe Payment Configuration
+VITE_STRIPE_PUBLIC_KEY=pk_test_51RRecSQWOMhxjQrpADlBWlqmgLmLbp7dsSigLijG1Vmr5BbmErqcpbJhfEMfc9hh7nINu51mQfQRcBsdMES5u9cg00sPaLwry4
+STRIPE_SECRET_KEY=sk_test_51RRecSQWOMhxjQrpxbz5AMhQLfokQ0NsKkJHZ8zUv7g58NGnMdqGwa68j0rKCeFBFQiDGjZk91NnPgr8ie3DS44C00vYLw9HQH
+STRIPE_WEBHOOK_SECRET=whsec_cv_optimizer_pro_webhook_secret_2024
+
+# Database Configuration (using Replit's PostgreSQL)
+DATABASE_URL=${DATABASE_URL}
+
+# PWA Configuration - Push Notifications
+VAPID_PUBLIC_KEY=${VAPID_PUBLIC_KEY}
+VAPID_PRIVATE_KEY=${VAPID_PRIVATE_KEY}
+VAPID_EMAIL=mailto:admin@cvoptimizer.pro
+
+# Application URLs
+APP_URL=https://cv-optimizer-pro.replit.app
+CANONICAL_URL=https://cv-optimizer-pro.replit.app
+REPLIT_DOMAIN=${REPLIT_DOMAIN}
+
+# Security Keys
+JWT_SECRET_KEY=cv-optimizer-pro-jwt-secret-key-2024-secure
+SESSION_COOKIE_SECURE=False
+SESSION_COOKIE_HTTPONLY=True
+SESSION_COOKIE_SAMESITE=Lax
+
+# Email Configuration (for notifications)
+MAIL_SERVER=smtp.gmail.com
+MAIL_PORT=587
+MAIL_USE_TLS=True
+MAIL_USERNAME=noreply@cvoptimizer.pro
+MAIL_PASSWORD=app-specific-password-here
+MAIL_DEFAULT_SENDER=CV Optimizer Pro <noreply@cvoptimizer.pro>
+
+# Google Services
+ADSENSE_CLIENT_ID=ca-pub-7717241332394444
+GOOGLE_ANALYTICS_ID=G-CV0PT1M1Z3R
+
+# PWA Cache Configuration
+PWA_CACHE_VERSION=v1.2.0
+PWA_CACHE_NAME=cv-optimizer-pro-cache
+PWA_OFFLINE_FALLBACK=/offline
+
+# API Rate Limiting
+API_RATE_LIMIT=100
+API_RATE_LIMIT_WINDOW=3600
+
+# File Upload Configuration
+MAX_CONTENT_LENGTH=16777216
+UPLOAD_FOLDER=uploads
+ALLOWED_EXTENSIONS=pdf,doc,docx,txt
+
+# Logging Configuration
+LOG_LEVEL=INFO
+LOG_FILE=app.log
+
+# Development Tools
+FLASK_PROFILER_ENABLED=False
+DEBUG_TOOLBAR_ENABLED=False

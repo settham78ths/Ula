@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Optimizer Pro - Optymalizuj swoje CV z AI</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Custom CSS -->
+    <style>
+        :root {
+            --primary: #667eea;
+            --secondary: #764ba2;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+            --info: #3b82f6;
+            --dark: #1f2937;
+            --light: #f8fafc;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            min-height: 100vh;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .main-container {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 24px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            margin: 2rem auto;
+            max-width: 1200px;
+            overflow: hidden;
+        }
+
+        .header-section {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 3rem 2rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .header-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='2'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .hero-icon {
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .hero-icon i {
+            font-size: 2rem;
+            color: white;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .hero-subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .content-section {
+            padding: 3rem 2rem;
+        }
+
+        .upload-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            border: 1px solid rgba(0, 0, 0, 0.05);
+        }
+
+        .upload-area {
+            border: 2px dashed var(--primary);
+            border-radius: 16px;
+            padding: 3rem 2rem;
+            text-align: center;
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.05), rgba(118, 75, 162, 0.05));
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .upload-area:hover {
+            border-color: var(--secondary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+
+        .upload-icon {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 1rem;
+        }
+
+        .job-info-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .analysis-card {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-bottom: 2rem;
+            display: none;
+        }
+
+        .analysis-card.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .option-item {
+            background: #f8fafc;
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .option-item:hover {
+            border-color: var(--primary);
+            background: rgba(102, 126, 234, 0.05);
+        }
+
+        .option-item.selected {
+            border-color: var(--primary);
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1), rgba(118, 75, 162, 0.1));
+        }
+
+        .option-title {
+            font-weight: 600;
+            color: var(--dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .option-description {
+            color: #6b7280;
+            margin: 0;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .form-control {
+            border: 2px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 0.75rem 1rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+        }
+
+        .alert {
+            border: none;
+            border-radius: 12px;
+            padding: 1rem 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .alert-success {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.1));
+            color: var(--success);
+            border-left: 4px solid var(--success);
+        }
+
+        .alert-danger {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(220, 38, 38, 0.1));
+            color: var(--danger);
+            border-left: 4px solid var(--danger);
+        }
+
+        .loading-indicator {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading-indicator.show {
+            display: block;
+        }
+
+        .spinner {
+            width: 3rem;
+            height: 3rem;
+            border: 4px solid rgba(102, 126, 234, 0.2);
+            border-top: 4px solid var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .result-container {
+            background: white;
+            border-radius: 20px;
+            padding: 2rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            margin-top: 2rem;
+            display: none;
+        }
+
+        .result-container.show {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        .cv-preview {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            max-height: 400px;
+            overflow-y: auto;
+            white-space: pre-wrap;
+            font-family: 'Inter', sans-serif;
+            line-height: 1.6;
+        }
+
+        @media (max-width: 768px) {
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .content-section {
+                padding: 2rem 1rem;
+            }
+            
+            .upload-card,
+            .job-info-card,
+            .analysis-card {
+                padding: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container-fluid">
+        <div class="main-container">
+            <!-- Header Section -->
+            <div class="header-section">
+                <div class="header-content">
+                    <div class="hero-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h1 class="hero-title">CV Optimizer Pro</h1>
+                    <p class="hero-subtitle">Optymalizuj swoje CV za pomocą sztucznej inteligencji</p>
+                </div>
+            </div>
+
+            <!-- Content Section -->
+            <div class="content-section">
+                <!-- Authentication Check -->
+                {% if not current_user.is_authenticated %}
+                <div class="alert alert-info text-center">
+                    <h5><i class="fas fa-info-circle me-2"></i>Zaloguj się, aby korzystać z aplikacji</h5>
+                    <p class="mb-3">Potrzebujesz konta, aby przesłać CV i skorzystać z optymalizacji AI.</p>
+                    <a href="{{ url_for('login') }}" class="btn btn-primary me-2">Zaloguj się</a>
+                    <a href="{{ url_for('register') }}" class="btn btn-outline-primary">Utwórz konto</a>
+                </div>
+                {% endif %}
+
+                <!-- CV Upload Section -->
+                <div class="upload-card">
+                    <h3 class="mb-4"><i class="fas fa-upload me-2"></i>Prześlij swoje CV</h3>
+                    
+                    <form id="cv-upload-form" enctype="multipart/form-data">
+                        <div class="upload-area" onclick="document.getElementById('cv-file').click()">
+                            <i class="fas fa-cloud-upload-alt upload-icon"></i>
+                            <h5>Kliknij lub przeciągnij plik PDF</h5>
+                            <p class="text-muted mb-0">Obsługujemy tylko pliki PDF do 16MB</p>
+                            <input type="file" id="cv-file" name="cv_file" accept=".pdf" style="display: none;" required>
+                        </div>
+                    </form>
+
+                    <!-- Upload Messages -->
+                    <div id="upload-success" class="alert alert-success" style="display: none;">
+                        <i class="fas fa-check-circle me-2"></i>CV zostało pomyślnie przesłane!
+                    </div>
+
+                    <div id="upload-error" class="alert alert-danger" style="display: none;">
+                        <i class="fas fa-exclamation-circle me-2"></i>
+                        <span id="error-message">Błąd podczas przesyłania CV</span>
+                    </div>
+                </div>
+
+                <!-- Job Information Section -->
+                <div class="job-info-card">
+                    <h3 class="mb-4"><i class="fas fa-briefcase me-2"></i>Informacje o stanowisku (opcjonalnie)</h3>
+                    
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="job-title" class="form-label">Nazwa stanowiska</label>
+                            <input type="text" class="form-control" id="job-title" placeholder="np. Senior Developer, Specjalista IT...">
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="job-url" class="form-label">Link do oferty</label>
+                            <input type="url" class="form-control" id="job-url" placeholder="https://pracuj.pl/praca/...">
+                        </div>
+                    </div>
+                    
+                    <div class="mb-3">
+                        <label for="job-description" class="form-label">Opis stanowiska</label>
+                        <textarea class="form-control" id="job-description" rows="6" placeholder="Wklej tutaj opis stanowiska z oferty pracy...
+
+Przykład:
+- Wymagane: wykształcenie wyższe informatyczne
+- Doświadczenie: min. 3 lata w programowaniu
+- Technologie: Java, Spring, MySQL
+- Języki obce: angielski B2"></textarea>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <button type="button" id="analyze-job-btn" class="btn btn-outline-info w-100">
+                                <i class="fas fa-search me-2"></i>Analizuj opis
+                            </button>
+                        </div>
+                        <div class="col-md-6">
+                            <button type="button" id="analyze-url-btn" class="btn btn-outline-warning w-100">
+                                <i class="fas fa-link me-2"></i>Pobierz z URL
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Analysis Options Section -->
+                <div class="analysis-card" id="analysis-options">
+                    <h3 class="mb-4"><i class="fas fa-cogs me-2"></i>Wybierz rodzaj analizy</h3>
+                    
+                    <div class="option-item" data-value="optimize">
+                        <div class="option-title">✨ Optymalizuj CV</div>
+                        <div class="option-description">Ulepsz CV pod konkretne stanowisko</div>
+                    </div>
+
+                    <div class="option-item" data-value="ats_check">
+                        <div class="option-title">🤖 Test ATS</div>
+                        <div class="option-description">Sprawdź kompatybilność z systemami ATS</div>
+                    </div>
+
+                    <div class="option-item" data-value="grammar_check">
+                        <div class="option-title">✏️ Sprawdzenie gramatyki</div>
+                        <div class="option-description">Korekta językowa i stylistyczna</div>
+                    </div>
+
+                    <div class="option-item" data-value="feedback">
+                        <div class="option-title">📋 Opinia rekrutera <span class="badge bg-warning text-dark">Premium</span></div>
+                        <div class="option-description">Otrzymaj feedback jak od prawdziwego rekrutera</div>
+                    </div>
+
+                    <div class="option-item" data-value="cover_letter">
+                        <div class="option-title">📝 List motywacyjny <span class="badge bg-warning text-dark">Premium</span></div>
+                        <div class="option-description">Wygeneruj spersonalizowany list</div>
+                    </div>
+
+                    <div class="option-item" data-value="cv_score">
+                        <div class="option-title">📊 Ocena CV (1-100) <span class="badge bg-warning text-dark">Premium</span></div>
+                        <div class="option-description">Szczegółowa ocena i rekomendacje</div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <button id="process-button" class="btn btn-primary btn-lg" disabled>
+                            <i class="fas fa-play me-2"></i>Rozpocznij analizę AI
+                        </button>
+                    </div>
+
+                    <input type="hidden" id="selected-option" value="optimize">
+                </div>
+
+                <!-- Loading Indicator -->
+                <div class="loading-indicator" id="loading-indicator">
+                    <div class="spinner"></div>
+                    <h5 id="loading-message">Analizuję CV za pomocą AI...</h5>
+                    <p class="text-muted">To może potrwać 30-60 sekund</p>
+                </div>
+
+                <!-- Results Section -->
+                <div class="result-container" id="result-container">
+                    <h3 class="mb-4"><i class="fas fa-chart-bar me-2"></i>Wyniki analizy</h3>
+                    <div id="result-content" class="cv-preview">
+                        Wyniki analizy pojawią się tutaj...
+                    </div>
+                    <div class="text-center mt-3">
+                        <button id="copy-result-btn" class="btn btn-success me-2">
+                            <i class="fas fa-copy me-2"></i>Kopiuj wynik
+                        </button>
+                        <button id="download-result-btn" class="btn btn-outline-primary">
+                            <i class="fas fa-download me-2"></i>Pobierz PDF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JavaScript -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Initialize variables
+            let cvText = '';
+            let isProcessing = false;
+
+            // DOM elements
+            const cvUploadForm = document.getElementById('cv-upload-form');
+            const cvFileInput = document.getElementById('cv-file');
+            const jobTitleInput = document.getElementById('job-title');
+            const jobDescriptionInput = document.getElementById('job-description');
+            const jobUrlInput = document.getElementById('job-url');
+            const processButton = document.getElementById('process-button');
+            const uploadSuccessAlert = document.getElementById('upload-success');
+            const uploadErrorAlert = document.getElementById('upload-error');
+            const errorMessageSpan = document.getElementById('error-message');
+            const loadingIndicator = document.getElementById('loading-indicator');
+            const analysisOptions = document.getElementById('analysis-options');
+            const resultContainer = document.getElementById('result-container');
+            const resultContent = document.getElementById('result-content');
+            const selectedOptionInput = document.getElementById('selected-option');
+            const analyzeJobBtn = document.getElementById('analyze-job-btn');
+            const analyzeUrlBtn = document.getElementById('analyze-url-btn');
+            const copyResultBtn = document.getElementById('copy-result-btn');
+
+            // File input change handler
+            cvFileInput.addEventListener('change', function() {
+                if (this.files.length > 0) {
+                    uploadCV();
+                }
+            });
+
+            // Analysis option selection
+            document.querySelectorAll('.option-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    // Remove selected class from all items
+                    document.querySelectorAll('.option-item').forEach(opt => opt.classList.remove('selected'));
+                    
+                    // Add selected class to clicked item
+                    this.classList.add('selected');
+                    
+                    // Update hidden input
+                    selectedOptionInput.value = this.dataset.value;
+                    
+                    // Enable process button if CV is uploaded
+                    if (cvText) {
+                        processButton.disabled = false;
+                    }
+                });
+            });
+
+            // Process button handler
+            processButton.addEventListener('click', function() {
+                if (!isProcessing && cvText) {
+                    processCV();
+                }
+            });
+
+            // Job analysis buttons
+            if (analyzeJobBtn) {
+                analyzeJobBtn.addEventListener('click', analyzeJobDescription);
+            }
+
+            if (analyzeUrlBtn) {
+                analyzeUrlBtn.addEventListener('click', extractFromJobUrl);
+            }
+
+            // Copy result button
+            if (copyResultBtn) {
+                copyResultBtn.addEventListener('click', copyResult);
+            }
+
+            // Upload CV function
+            function uploadCV() {
+                if (isProcessing) {
+                    showError('Operacja już w toku, proszę czekać...');
+                    return;
+                }
+
+                const formData = new FormData();
+                
+                if (!cvFileInput.files.length) {
+                    showError('Wybierz plik CV');
+                    return;
+                }
+
+                const file = cvFileInput.files[0];
+                if (file.size > 16 * 1024 * 1024) {
+                    showError('Plik jest za duży. Maksymalny rozmiar to 16MB.');
+                    return;
+                }
+
+                formData.append('cv_file', file);
+
+                // Add optional fields
+                if (jobTitleInput.value) {
+                    formData.append('job_title', jobTitleInput.value);
+                }
+                if (jobDescriptionInput.value) {
+                    formData.append('job_description', jobDescriptionInput.value);
+                }
+
+                isProcessing = true;
+                showLoading('Przesyłanie i przetwarzanie CV...');
+
+                fetch('/upload-cv', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        cvText = data.cv_text;
+                        showSuccess('✅ CV zostało pomyślnie przesłane!');
+                        showAnalysisOptions();
+                    } else {
+                        showError(data.message || 'Błąd podczas przesyłania CV');
+                    }
+                })
+                .catch(error => {
+                    console.error('Upload error:', error);
+                    showError('Wystąpił błąd podczas przesyłania CV');
+                })
+                .finally(() => {
+                    isProcessing = false;
+                    hideLoading();
+                });
+            }
+
+            // Process CV function
+            function processCV() {
+                if (isProcessing || !cvText) {
+                    return;
+                }
+
+                const selectedOption = selectedOptionInput.value;
+                if (!selectedOption) {
+                    showError('Wybierz rodzaj analizy');
+                    return;
+                }
+
+                isProcessing = true;
+                showLoading('🤖 Analizuję CV przez AI...');
+                hideResult();
+
+                const requestData = {
+                    cv_text: cvText,
+                    selected_option: selectedOption,
+                    job_description: jobDescriptionInput.value || '',
+                    job_title: jobTitleInput.value || '',
+                    language: 'pl'
+                };
+
+                fetch('/process-cv', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(requestData)
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        displayResult(data.result);
+                        
+                        // Sprawdź czy to tryb demo
+                        if (data.result && data.result.includes('TRYB DEMO')) {
+                            showError('⚠️ Aplikacja działa w trybie demo. Skontaktuj się z administratorem aby aktywować pełną funkcjonalność.');
+                        } else {
+                            showSuccess('✅ Analiza zakończona pomyślnie!');
+                        }
+                    } else if (data.payment_required) {
+                        showError('Ta funkcja wymaga płatności. Zostaniesz przekierowany...');
+                        setTimeout(() => window.location.href = '/payment-options', 2000);
+                    } else if (data.premium_required) {
+                        showError('Ta funkcja jest dostępna tylko w wersji Premium.');
+                    } else {
+                        showError(data.message || 'Błąd podczas przetwarzania CV');
+                    }
+                })
+                .catch(error => {
+                    console.error('Processing error:', error);
+                    showError('Wystąpił błąd podczas analizy CV');
+                })
+                .finally(() => {
+                    isProcessing = false;
+                    hideLoading();
+                });
+            }
+
+            // Job analysis functions
+            function analyzeJobDescription() {
+                const jobDescription = jobDescriptionInput.value.trim();
+                if (!jobDescription) {
+                    showError('Wprowadź opis stanowiska do analizy');
+                    return;
+                }
+
+                showLoading('🔍 Analizuję opis stanowiska...');
+
+                fetch('/analyze-job-posting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        job_description: jobDescription,
+                        language: 'pl'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        showSuccess('✅ Analiza stanowiska zakończona!');
+                    } else {
+                        showError(data.message || 'Błąd podczas analizy stanowiska');
+                    }
+                })
+                .catch(error => {
+                    console.error('Job analysis error:', error);
+                    showError('Wystąpił błąd podczas analizy');
+                })
+                .finally(() => {
+                    hideLoading();
+                });
+            }
+
+            function extractFromJobUrl() {
+                const jobUrl = jobUrlInput.value.trim();
+                if (!jobUrl) {
+                    showError('Wprowadź URL oferty pracy');
+                    return;
+                }
+
+                showLoading('📥 Pobieranie opisu z URL...');
+
+                fetch('/analyze-job-posting', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        job_url: jobUrl,
+                        language: 'pl'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        if (data.raw_description) {
+                            jobDescriptionInput.value = data.raw_description;
+                        }
+                        showSuccess('✅ Opis został pobrany z URL!');
+                    } else {
+                        showError(data.message || 'Błąd podczas pobierania z URL');
+                    }
+                })
+                .catch(error => {
+                    console.error('URL extraction error:', error);
+                    showError('Wystąpił błąd podczas pobierania z URL');
+                })
+                .finally(() => {
+                    hideLoading();
+                });
+            }
+
+            // Display functions
+            function displayResult(result) {
+                if (typeof result === 'object') {
+                    if (result.optimized_cv || result.improved_cv) {
+                        const optimizedCV = result.optimized_cv || result.improved_cv;
+                        resultContent.innerHTML = `
+                            <div class="alert alert-success mb-3">
+                                <i class="fas fa-magic me-2"></i>
+                                <strong>Zoptymalizowane CV:</strong>
+                            </div>
+                            <pre style="white-space: pre-wrap; font-family: inherit; background: #f8f9fa; padding: 15px; border-radius: 8px; border-left: 4px solid #28a745;">${optimizedCV.replace(/</g, '&lt;').replace(/>/g, '&gt;')}</pre>
+                        `;
+                    } else {
+                        resultContent.innerHTML = `<pre style="white-space: pre-wrap;">${JSON.stringify(result, null, 2)}</pre>`;
+                    }
+                } else {
+                    resultContent.innerHTML = `<pre style="white-space: pre-wrap;">${result}</pre>`;
+                }
+                
+                showResult();
+            }
+
+            function copyResult() {
+                const text = resultContent.textContent || resultContent.innerText;
+                navigator.clipboard.writeText(text).then(() => {
+                    showSuccess('✅ Wynik skopiowany do schowka!');
+                }).catch(() => {
+                    showError('Nie udało się skopiować wyniku');
+                });
+            }
+
+            // Utility functions
+            function showSuccess(message) {
+                uploadSuccessAlert.textContent = message;
+                uploadSuccessAlert.style.display = 'block';
+                uploadErrorAlert.style.display = 'none';
+                setTimeout(() => {
+                    uploadSuccessAlert.style.display = 'none';
+                }, 5000);
+            }
+
+            function showError(message) {
+                errorMessageSpan.textContent = message;
+                uploadErrorAlert.style.display = 'block';
+                uploadSuccessAlert.style.display = 'none';
+                setTimeout(() => {
+                    uploadErrorAlert.style.display = 'none';
+                }, 5000);
+            }
+
+            function showLoading(message) {
+                document.getElementById('loading-message').textContent = message;
+                loadingIndicator.classList.add('show');
+            }
+
+            function hideLoading() {
+                loadingIndicator.classList.remove('show');
+            }
+
+            function showAnalysisOptions() {
+                analysisOptions.classList.add('show');
+                // Select first option by default
+                document.querySelector('.option-item').click();
+            }
+
+            function showResult() {
+                resultContainer.classList.add('show');
+                resultContainer.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function hideResult() {
+                resultContainer.classList.remove('show');
+            }
+        });
+    </script>
+</body>
+</html>
